@@ -39,7 +39,7 @@ public class AnimeResource {
     if(deleted) {
         return ResponseEntity.ok("Anime deleted successfully");
     } else{
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().header("Error", "Anime" + name + "not found" ).build();
     }
 }
 
