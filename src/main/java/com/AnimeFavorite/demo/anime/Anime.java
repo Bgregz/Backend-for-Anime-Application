@@ -1,6 +1,17 @@
 package com.AnimeFavorite.demo.anime;
 
+import com.AnimeFavorite.demo.users.Users;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import org.apache.catalina.User;
+@Entity
 public class Anime {
+    @Id
+    @GeneratedValue
+    private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Users user;
     private String title;
     private String img;
     private String status;
@@ -19,6 +30,17 @@ public class Anime {
         this.rank = rank;
         this.released = released;
         this.score = score;
+    }
+    public Anime(){
+
+    }
+
+    public Users getUser() {
+        return user;
+    }
+
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -85,17 +107,19 @@ public class Anime {
         this.score = score;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Anime{" +
-//                "title='" + title + '\'' +
-//                ", img='" + img + '\'' +
-//                ", status='" + status + '\'' +
-//                ", summary='" + summary + '\'' +
-//                ", episodes=" + episodes +
-//                ", rank=" + rank +
-//                ", released=" + released +
-//                ", score=" + score +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "Anime{" +
+                "id=" + id +
+                ", user=" + user +
+                ", title='" + title + '\'' +
+                ", img='" + img + '\'' +
+                ", status='" + status + '\'' +
+                ", summary='" + summary + '\'' +
+                ", episodes=" + episodes +
+                ", rank=" + rank +
+                ", released=" + released +
+                ", score=" + score +
+                '}';
+    }
 }

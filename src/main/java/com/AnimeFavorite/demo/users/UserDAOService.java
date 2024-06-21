@@ -1,5 +1,7 @@
 package com.AnimeFavorite.demo.users;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserDAOService {
+    Logger logger = LoggerFactory.getLogger(UserDAOService.class);
     private static List<Users> users = new ArrayList<>();
 
     public Optional<Users> findUser(Users user) {
@@ -31,7 +34,7 @@ public Boolean newUser(Users user) {
     Set<String> usernameSet = users.stream()
             .map(Users::getUsername)
             .collect(Collectors.toSet());
-    if (usernameSet.contains(userName)){
+    if (!usernameSet.contains(userName)){
         users.add(user);
         return true;
     }
