@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
+
 import java.util.Optional;
 
 
@@ -20,20 +20,21 @@ import java.util.Optional;
 public class UserJPAResource {
     @Autowired
     private final UserRepository userrepository;
-    private final UserDAOService service;
+
     private final Logger logger = LoggerFactory.getLogger(UserJPAResource.class);
 
-    public UserJPAResource(UserRepository repository, UserDAOService service) {
+    public UserJPAResource(UserRepository repository) {
         this.userrepository = repository;
-        this.service = service;
+
     }
 
 
-    @GetMapping(path = "/jpa/users")
+    @PostMapping(path = "/jpa/users")
     @Transactional
     public ResponseEntity<Users> retrieveUser(@RequestBody Users user) {
         String userName = user.getUsername();
         String password = user.getPassword();
+        logger.info("we getting it");
         Optional<Users> foundUser = userrepository.findByUsername(userName);
 
         if (foundUser.isPresent() && foundUser.get().getPassword().equals(password)) {
@@ -44,14 +45,14 @@ public class UserJPAResource {
     }
 
 
-    @PostMapping(path = "/jpa/users")
+    @PostMapping(path = "/jpa/users/signup")
     @Transactional
-    public ResponseEntity<String> createUser(@RequestBody Users user) {
+    public ResponseEntity<?> createUser(@RequestBody Users user) {
         String userName = user.getUsername();
-        boolean userExists = userrepository.existsByUsername(userName);
-        if (!userExists) {
-            userrepository.save(user);
-            return ResponseEntity.ok("User Created");
+        Optional<Users> userExists = userrepository.findByUsername(userName);
+        if (userExists.isEmpty()) {
+           Users savedUser = userrepository.save(user);
+            return ResponseEntity.ok(savedUser);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username already taken");
         }
@@ -97,6 +98,8 @@ logger.info("creating anime");
         // If user not found, return 404 Not Found
         return ResponseEntity.notFound().build();
     }
+
+
 
 
 }

@@ -13,19 +13,21 @@ public class Anime {
     @JsonIgnore
     private Users user;
     private String title;
+    @Column (length = 2000)
     private String img;
     private String status;
-    private String summary;
+    @Column(length = 7000)
+    private String synopsis;
     private Integer episodes;
     private Integer rank;
     private Integer released;
     private Double score;
 
-    public Anime(String title, String img, String status, String summary, Integer episodes, Integer rank, Integer released, Double score) {
+    public Anime(String title, String img, String status, String synopsis, Integer episodes, Integer rank, Integer released, Double score) {
         this.title = title;
         this.img = img;
         this.status = status;
-        this.summary = summary;
+        this.synopsis = synopsis;
         this.episodes = episodes;
         this.rank = rank;
         this.released = released;
@@ -59,12 +61,12 @@ public class Anime {
         this.img = img;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getSynopsis() {
+        return synopsis;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
     }
 
     public String getStatus() {
@@ -115,7 +117,7 @@ public class Anime {
                 ", title='" + title + '\'' +
                 ", img='" + img + '\'' +
                 ", status='" + status + '\'' +
-                ", summary='" + summary + '\'' +
+                ", synopsis='" + synopsis + '\'' +
                 ", episodes=" + episodes +
                 ", rank=" + rank +
                 ", released=" + released +
